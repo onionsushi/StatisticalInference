@@ -1,0 +1,2 @@
+# Statisticalinference
+course 6
