@@ -1,0 +1,63 @@
+---
+title: "peergraded1"
+author: "abelismyid"
+date: "27 June 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+#Simulation Exercise Instructions
+
+In this project you will investigate the exponential distribution in R and compare it with the Central Limit Theorem. The exponential distribution can be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also 1/lambda. Set lambda = 0.2 for all of the simulations. You will investigate the distribution of averages of 40 exponentials. Note that you will need to do a thousand simulations.
+
+So we have following conditions.
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+
+lambda=0.2
+H_0Mean=1/lambda
+H_0Variance=(1/lambda^2)
+sample <- rexp(40, rate = lambda)
+
+```
+#1.Show the sample mean and compare it to the theoretical mean of the distribution.
+ 
+```{r}
+H_0Mean
+mean(sample)
+
+``` 
+#2.Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+```{r}
+H_0Variance
+var(sample)
+```
+
+
+#3.Show that the distribution is approximately normal.
+
+In point 3, focus on the difference between the distribution of a large collection of random exponentials and the distribution of a large collection of averages of 40 exponentials.
+
+We will draw a histogram. The red line is the mean of 1000 sample means of size 40, and the blue is the theoratical mean. 
+```{r}
+mns = NULL
+for (i in 1 : 1000) mns = c(mns, mean(rexp(40,rate=lambda)))
+hist(mns,main="Sample Mean and Theoretical Mean", breaks = 20)
+abline(v=H_0Mean,col="blue")
+abline(v= mean(mns),col="red")
+
+```
+
+
+And we will do the same thing for the variances, by getting new samples. The red line is the mean of sample variances, and the blue line is the theoretical variance.
+
+```{r}
+vars = NULL
+for (i in 1 : 500) vars = c(vars, var(rexp(40,rate=lambda)))
+hist(vars,main="Sample Variance and Theoretical Variance", breaks = 40)
+abline(v= H_0Variance,col="blue")
+abline(v= mean(vars),col="red")
+```
+
+Therefore, we can see the more size we have, it approaches to the theoretical values. 
